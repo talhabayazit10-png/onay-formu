@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>İşe Giriş Onay Formu</title>
+    <style>
+        @font-face { font-family: 'Roboto'; src: url('fonts/Roboto-Regular.ttf'); font-weight: normal; }
+        @font-face { font-family: 'Roboto'; src: url('fonts/Roboto-Bold.ttf'); font-weight: bold; }
+        @page { size: A4; margin: 1cm; }
+        body { font-family: 'Roboto', sans-serif; font-size: 9.5pt; line-height: 1.3; color: #333; -webkit-print-color-adjust: exact; }
+        
+        .header-section {
+            display: flex; /* Flexbox ile yan yana hizalama */
+            justify-content: space-between; /* Aralarına boşluk bırakma */
+            align-items: flex-start; /* Üste hizalama */
+            margin-bottom: 10px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 5px;
+        }
+        .header-title h1 {
+            font-size: 16pt;
+            color: #0056b3;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
+
+        .header-meta {
+            font-size: 8pt;
+            color: #666;
+            text-align: right;
+        }
+
+        /* <<< YENİ EKLENDİ: PDF Skor stilleri >>> */
+        .score-container {
+            margin-top: 5px;
+            text-align: right;
+        }
+        .score-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 11pt;
+            border: 1px solid #333;
+        }
+        .score-high { background-color: #28a745; } /* Yeşil */
+        .score-medium { background-color: #ffc107; color: #333; } /* Sarı */
+        .score-low { background-color: #dc3545; } /* Kırmızı */
+
+
+        .sube-info {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #d9534f;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px dashed #d9534f;
+        }
+        h2 { font-size: 11pt; color: #0056b3; font-weight: bold; margin-top: 15px; margin-bottom: 5px; padding-bottom: 2px; border-bottom: 1px solid #ccc; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 9pt; }
+        td, th { border: 1px solid #ddd; padding: 5px 8px; vertical-align: top; word-wrap: break-word; }
+        td:first-child { font-weight: bold; background-color: #f8f8f8; width: 30%; color: #555; }
+        .photo-box { width: 80px; height: 100px; border: 1px solid #ccc; float: right; text-align: center; background-color: #f9f9f9; margin-left: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 8pt; }
+        .photo-box img { max-width: 100%; max-height: 100%; object-fit: cover; }
+        .notes-section { border: 1px solid #ddd; padding: 8px; margin-top: 5px; min-height: 80px; background-color: #fff; border-radius: 3px; font-size: 9pt; }
+        body > div { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <div class="header-title">
+            <h1>İŞE GİRİŞ ONAY FORMU</h1>
+        </div>
+        <div class="header-meta">
+            Oluşturulma Tarihi: {{ data.gorusme_tarihi }}
+            
+            {% if data.skor is not none %}
+            <div class="score-container">
+                <strong>Uygunluk Skoru: </strong>
+                {% if data.skor >= 70 %}
+                    <span class="score-badge score-high">{{ data.skor }}</span>
+                {% elif data.skor >= 40 %}
+                    <span class="score-badge score-medium">{{ data.skor }}</span>
+                {% else %}
+                    <span class="score-badge score-low">{{ data.skor }}</span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="sube-info">
+        İlgili Şube: {{ data.ihtiyac_sube }}
+    </div>
+
+    <div class="photo-box">
+        {% if data.foto_path %}
+            <img src="{{ data.foto_path }}">
+        {% else %}
+            <span>FOTOĞRAF YOK</span>
+        {% endif %}
+    </div>
+
+    <table>
+        <tr><td>AD SOYAD</td><td>{{ data.ad_soyad }}</td></tr>
+        <tr><td>İHTİYAÇ NEDENİ</td><td>{{ data.ihtiyac_nedeni }}</td></tr>
+    </table>
+
+    <h2>ADAY KİŞİSEL BİLGİLERİ</h2>
+    <table>
+        <tr><td>YAŞI</td><td>{{ data.yas }}</td></tr>
+        <tr><td>BOY / KİLO</td><td>{{ data.boy }} / {{ data.kilo }}</td></tr>
+        <tr><td>MEDENİ DURUMU</td><td>{{ data.medeni_durum }}</td></tr>
+        <tr><td>İKAMETGAH</td><td>{{ data.ikametgah }}</td></tr>
+        <tr><td>MEZUNİYET DURUMU</td><td>{{ data.mezuniyet }}</td></tr>
+    </table>
+    
+    <h2>İLETİŞİM & BAŞVURU BİLGİLERİ</h2>
+    <table>
+        <tr><td>TELEFON</td><td>{{ data.telefon }}</td></tr>
+        <tr><td>BAŞVURU SİTESİ</td><td>{{ data.basvuru_sitesi }}</td></tr>
+    </table>
+
+    <h2>İŞ DENEYİMLERİ</h2>
+    <div class="notes-section">{{ data.is_deneyimi if data.is_deneyimi else 'Bilgi Girilmedi.' }}</div>
+
+    <h2>GÖRÜŞME BİLGİLERİ</h2>
+    <table>
+        <tr><td>ONAYA SUNAN</td><td>{{ data.onaya_sunan }}</td></tr>
+        <tr><td>1. GÖRÜŞMEYİ YAPAN</td><td>{{ data.gorusme1_yapan }}</td></tr>
+        <tr><td>2. GÖRÜŞMEYİ YAPAN</td><td>{{ data.gorusme2_yapan }}</td></tr>
+    </table>
+    
+    <h2>GENEL DEĞERLENDİRME & NOTLAR</h2>
+    <div class="notes-section">{{ data.genel_notlar if data.genel_notlar else 'Herhangi bir genel değerlendirme notu girilmedi.' }}</div>
+
+</body>
+</html>

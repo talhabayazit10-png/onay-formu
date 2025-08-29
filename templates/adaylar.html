@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaydedilen Adaylar | İK Asistanı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; --secondary-color: #28a745; --danger-color: #dc3545;
+            --text-color: #333; --light-bg: #f4f7f9; --border-color: #e0e0e0;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light-bg); margin: 0; padding: 30px 0; }
+        .container { background-color: #ffffff; padding: 40px 50px; border-radius: 12px; box-shadow: var(--shadow-light); width: 100%; max-width: 1200px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color); }
+        h1 { color: var(--text-color); font-weight: 600; font-size: 2em; margin: 0; }
+        .btn-link { background-color: var(--secondary-color); color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 0.95em; transition: all 0.3s ease; }
+        .btn-link:hover { background-color: #218838; transform: translateY(-2px); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid var(--border-color); padding: 15px; text-align: left; font-size: 0.9em; }
+        th { background-color: var(--primary-color); color: white; font-weight: 600; text-transform: uppercase; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f1f1f1; }
+        .actions a, .actions button { text-decoration: none; padding: 6px 12px; border-radius: 5px; color: white; margin-right: 5px; font-size: 0.9em; }
+        .actions .btn-edit { background-color: #ffc107; color: #333; }
+        .actions .btn-delete { background-color: var(--danger-color); border: none; cursor: pointer; font-family: 'Poppins', sans-serif; }
+        .flash-message { padding: 15px; margin-bottom: 20px; border-radius: 8px; font-weight: 500; }
+        .flash-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+        /* --- YENİ EKLENDİ: Skor Etiketleri İçin Stiller --- */
+        .score-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .score-high { background-color: var(--secondary-color); } /* 70 ve üstü */
+        .score-medium { background-color: #ffc107; color: #333; } /* 40-69 arası */
+        .score-low { background-color: var(--danger-color); } /* 40 altı */
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kaydedilen Adaylar</h1>
+            <a href="/" class="btn-link">Yeni Aday Formu Oluştur</a>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}{% for category, message in messages %}<div class="flash-message {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+        {% endwith %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>İhtiyaç Olan Şube</th>
+                    <th>Uygunluk Skoru</th>
+                    <th>Kayıt Tarihi</th>
+                    <th>Eylemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aday in adaylar %}
+                <tr>
+                    <td><a href="{{ url_for('aday_detay', aday_id=aday.id) }}" style="color: var(--primary-color); font-weight: 500;">{{ aday.ad_soyad }}</a></td>
+                    <td>{{ aday.ihtiyac_sube }}</td>
+                    <td>
+                        {% if aday.skor >= 70 %}
+                            <div class="score-badge score-high">{{ aday.skor }}</div>
+                        {% elif aday.skor >= 40 %}
+                            <div class="score-badge score-medium">{{ aday.skor }}</div>
+                        {% else %}
+                            <div class="score-badge score-low">{{ aday.skor }}</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ aday.olusturma_tarihi.split(" ")[0] }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('aday_detay', aday_id=aday.id) }}" class="btn-edit">Detay/Düzenle</a>
+                        <form action="{{ url_for('aday_sil', aday_id=aday.id) }}" method="POST" style="display: inline-block;">
+                            <button type="submit" class="btn-delete" onclick="return confirm('Bu adayı kalıcı olarak silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">Henüz kaydedilmiş bir aday bulunmuyor.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ aday.ad_soyad }} | Aday Detayları</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; --secondary-color: #28a745; --danger-color: #dc3545; --warning-color: #ffc107;
+            --text-color: #333; --light-bg: #f4f7f9; --border-color: #e0e0e0;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light-bg); margin: 0; padding: 30px 0; }
+        .container { background-color: #ffffff; padding: 40px 50px; border-radius: 12px; box-shadow: var(--shadow-light); width: 100%; max-width: 900px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color); flex-wrap: wrap; }
+        .header-title { display: flex; align-items: center; gap: 20px; }
+        h1 { color: var(--text-color); font-weight: 600; font-size: 2em; margin: 0; }
+        .header-actions { margin-top: 10px; }
+        .header-actions a, .header-actions button { text-decoration: none; padding: 10px 20px; border-radius: 8px; color: white; margin-left: 10px; font-weight: 500; font-size: 0.9em; border: none; cursor: pointer; }
+        .header-actions .btn-pdf { background-color: var(--primary-color); }
+        .header-actions .btn-back { background-color: #6c757d; }
+        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { margin-bottom: 8px; font-weight: 500; color: var(--text-color); }
+        input, textarea { padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.9em; }
+        input:focus, textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); outline: none; }
+        textarea { resize: vertical; min-height: 120px; }
+        .full-width { grid-column: 1 / -1; }
+        .submit-btn { background-color: var(--secondary-color); color: white; border: none; padding: 15px; font-size: 1.1em; cursor: pointer; border-radius: 8px; font-weight: 600; }
+        .flash-message { padding: 15px; margin-bottom: 20px; border-radius: 8px; font-weight: 500; }
+        .flash-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .score-badge { padding: 8px 18px; border-radius: 8px; color: white; font-weight: 700; font-size: 1.5em; text-align: center; }
+        .score-high { background-color: var(--secondary-color); }
+        .score-medium { background-color: #ffc107; color: #333; }
+        .score-low { background-color: var(--danger-color); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <h1>{{ aday.ad_soyad }}</h1>
+                {% if aday.skor >= 70 %}<div class="score-badge score-high">{{ aday.skor }}</div>
+                {% elif aday.skor >= 40 %}<div class="score-badge score-medium">{{ aday.skor }}</div>
+                {% else %}<div class="score-badge score-low">{{ aday.skor }}</div>{% endif %}
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('aday_listesi') }}" class="btn-back">Listeye Geri Dön</a>
+                <a href="{{ url_for('aday_pdf', aday_id=aday.id) }}" class="btn-pdf">PDF İndir</a>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}{% for category, message in messages %}<div class="flash-message {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+        {% endwith %}
+        <form action="{{ url_for('aday_duzenle', aday_id=aday.id) }}" method="post" enctype="multipart/form-data">
+            <div class="form-group full-width">
+                <label>MEVCUT FOTOĞRAF</label>
+                {% if aday.foto_path %}
+                    <img src="{{ url_for('uploaded_file', filename=aday.foto_path) }}" alt="Aday Fotoğrafı" style="max-width: 150px; border-radius: 8px; margin-bottom: 10px;">
+                {% else %}
+                    <p>Mevcut fotoğraf yok.</p>
+                {% endif %}
+                <label for="foto">Fotoğrafı Değiştir/Ekle</label>
+                <input type="file" id="foto" name="foto" accept="image/*">
+            </div>
+            <div class="form-group"><label>AD SOYAD</label><input type="text" name="ad_soyad" value="{{ aday.ad_soyad }}" required></div>
+            <div class="form-group"><label>İHTİYAÇ OLAN ŞUBE</label><input type="text" name="ihtiyac_sube" value="{{ aday.ihtiyac_sube }}"></div>
+            <div class="form-group full-width"><label>İHTİYAÇ NEDENİ</label><input type="text" name="ihtiyac_nedeni" value="{{ aday.ihtiyac_nedeni }}"></div>
+            <div class="form-group"><label>YAŞI</label><input type="number" name="yas" value="{{ aday.yas }}"></div>
+            <div class="form-group"><label>BOY (cm)</label><input type="text" name="boy" value="{{ aday.boy }}"></div>
+            <div class="form-group"><label>KİLO (kg)</label><input type="text" name="kilo" value="{{ aday.kilo }}"></div>
+            <div class="form-group"><label>MEDENİ DURUMU</label><input type="text" name="medeni_durum" value="{{ aday.medeni_durum }}"></div>
+            <div class="form-group full-width"><label>İKAMETGAH</label><input type="text" name="ikametgah" value="{{ aday.ikametgah }}"></div>
+            <div class="form-group full-width"><label>MEZUNİYET DURUMU</label><input type="text" name="mezuniyet" value="{{ aday.mezuniyet }}"></div>
+            <div class="form-group"><label>TELEFON</label><input type="tel" name="telefon" value="{{ aday.telefon }}"></div>
+            <div class="form-group"><label>BAŞVURU SİTESİ</label><input type="text" name="basvuru_sitesi" value="{{ aday.basvuru_sitesi }}"></div>
+            <div class="form-group full-width"><label>İŞ DENEYİMLERİ</label><textarea name="is_deneyimi">{{ aday.is_deneyimi }}</textarea></div>
+            <div class="form-group"><label>ONAYA SUNAN</label><input type="text" name="onaya_sunan" value="{{ aday.onaya_sunan }}" required></div>
+            <div class="form-group"><label>1. GÖRÜŞMEYİ YAPAN</label><input type="text" name="gorusme1_yapan" value="{{ aday.gorusme1_yapan }}"></div>
+            <div class="form-group"><label>2. GÖRÜŞMEYİ YAPAN</label><input type="text" name="gorusme2_yapan" value="{{ aday.gorusme2_yapan }}"></div>
+            <div class="form-group full-width"><label>GENEL DEĞERLENDİRME VE NOTLAR</label><textarea name="genel_notlar">{{ aday.genel_notlar }}</textarea></div>
+            <button type="submit" class="full-width submit-btn">Değişiklikleri Kaydet</button>
+        </form>
+    </div>
+</body>
+</html>
