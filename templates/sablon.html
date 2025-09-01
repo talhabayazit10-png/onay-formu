@@ -6,138 +6,216 @@
     <style>
         @font-face { font-family: 'Roboto'; src: url('fonts/Roboto-Regular.ttf'); font-weight: normal; }
         @font-face { font-family: 'Roboto'; src: url('fonts/Roboto-Bold.ttf'); font-weight: bold; }
-        @page { size: A4; margin: 1cm; }
-        body { font-family: 'Roboto', sans-serif; font-size: 9.5pt; line-height: 1.3; color: #333; -webkit-print-color-adjust: exact; }
-        
-        .header-section {
-            display: flex; /* Flexbox ile yan yana hizalama */
-            justify-content: space-between; /* Aralarına boşluk bırakma */
-            align-items: flex-start; /* Üste hizalama */
-            margin-bottom: 10px;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 5px;
+        @page { size: A4; margin: 1cm; } 
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            font-size: 9pt;
+            line-height: 1.35; 
+            color: #333; 
+            -webkit-print-color-adjust: exact; 
         }
-        .header-title h1 {
-            font-size: 16pt;
-            color: #0056b3;
-            font-weight: bold;
-            margin: 0;
-            padding: 0;
+        
+        /* === ÜST BİLGİ ALANI === */
+        .header-section { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            border-bottom: 2px solid #0056b3; 
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .header-title { flex-grow: 1; margin-right: 100px; /* Fotoğraf için boşluk */ }
+        .header-title h1 { 
+            font-size: 15pt; 
+            color: #0056b3; 
+            font-weight: bold; 
+            margin: 0; 
+            padding: 0; 
             text-transform: uppercase;
         }
-
-        .header-meta {
-            font-size: 8pt;
-            color: #666;
-            text-align: right;
+        .header-title .sube-text { 
+            font-size: 12pt; 
+            color: #d9534f; 
+            font-weight: bold; 
         }
 
-        /* <<< YENİ EKLENDİ: PDF Skor stilleri >>> */
-        .score-container {
-            margin-top: 5px;
-            text-align: right;
+        /* === GENEL İÇERİK STİLLERİ === */
+        h2 { 
+            font-size: 11pt; 
+            color: #0056b3; 
+            font-weight: bold; 
+            margin-top: 15px;
+            margin-bottom: 6px; 
+            padding-bottom: 3px; 
+            border-bottom: 1px solid #ccc; 
+            text-transform: uppercase; 
         }
-        .score-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            font-size: 11pt;
-            border: 1px solid #333;
+        .top-section h2 { margin-top: 0; } 
+        h3 { font-size: 9.5pt; color: #333; font-weight: bold; margin-top: 10px; margin-bottom: 4px; }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 10px; 
         }
-        .score-high { background-color: #28a745; } /* Yeşil */
-        .score-medium { background-color: #ffc107; color: #333; } /* Sarı */
-        .score-low { background-color: #dc3545; } /* Kırmızı */
-
-
-        .sube-info {
-            font-size: 14pt;
-            font-weight: bold;
-            color: #d9534f;
-            text-align: center;
-            margin-top: 5px;
+        td, th { 
+            border: 1px solid #ddd; 
+            padding: 5px 7px;
+            vertical-align: top; 
+            word-wrap: break-word; 
+        }
+        td:first-child { 
+            font-weight: bold; 
+            background-color: #f8f8f8; 
+            width: 30%; 
+            color: #555; 
+        }
+        
+        .top-section {
+            width: 100%;
+            border: none;
+            vertical-align: top;
             margin-bottom: 10px;
-            padding: 5px;
-            border: 1px dashed #d9534f;
         }
-        h2 { font-size: 11pt; color: #0056b3; font-weight: bold; margin-top: 15px; margin-bottom: 5px; padding-bottom: 2px; border-bottom: 1px solid #ccc; text-transform: uppercase; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 9pt; }
-        td, th { border: 1px solid #ddd; padding: 5px 8px; vertical-align: top; word-wrap: break-word; }
-        td:first-child { font-weight: bold; background-color: #f8f8f8; width: 30%; color: #555; }
-        .photo-box { width: 80px; height: 100px; border: 1px solid #ccc; float: right; text-align: center; background-color: #f9f9f9; margin-left: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 8pt; }
-        .photo-box img { max-width: 100%; max-height: 100%; object-fit: cover; }
-        .notes-section { border: 1px solid #ddd; padding: 8px; margin-top: 5px; min-height: 80px; background-color: #fff; border-radius: 3px; font-size: 9pt; }
-        body > div { margin-bottom: 5px; }
+        .top-section > tbody > tr > td {
+            width: 50%;
+            vertical-align: top;
+            border: none;
+            padding: 0;
+        }
+        .top-section .left-col { padding-right: 15px; }
+        .top-section .right-col { padding-left: 15px; }
+
+        /* === GÜNCELLENDİ: FOTOĞRAF ÇERÇEVESİ === */
+        .photo-box { 
+            width: 80px; 
+            height: 100px; 
+            border: 1px solid #ccc; 
+            background-color: #fff; /* Çerçeve içi boşluk için */
+            padding: 3px; /* Fotoğraf ile çerçeve arasına boşluk */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Hafif gölge efekti */
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .photo-box img { 
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover; 
+        }
+        
+        .notes-section { 
+            border: 1px solid #ddd; 
+            padding: 6px 10px;
+            margin-top: 4px; 
+            background-color: #fff; 
+            border-radius: 3px; 
+            white-space: pre-wrap;
+        }
+        .multi-column-notes {
+            column-count: 2;
+            column-gap: 20px;
+        }
+
+        /* === YENİ: ALT BİLGİ (FOOTER) ALANI === */
+        .footer-section {
+            margin-top: 25px;
+            padding-top: 8px;
+            border-top: 2px solid #0056b3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+        }
+        .footer-date { color: #666; }
+        .score-badge { display: inline-block; padding: 3px 8px; border-radius: 5px; color: white; font-weight: bold; font-size: 10pt; border: 1px solid #333; }
+        .score-high { background-color: #28a745; }
+        .score-medium { background-color: #ffc107; color: #333; }
+        .score-low { background-color: #dc3545; }
     </style>
 </head>
 <body>
     <div class="header-section">
         <div class="header-title">
             <h1>İŞE GİRİŞ ONAY FORMU</h1>
+            <span class="sube-text">{{ data.ihtiyac_sube or 'ŞUBE BİLGİSİ YOK' }}</span>
         </div>
-        <div class="header-meta">
-            Oluşturulma Tarihi: {{ data.gorusme_tarihi }}
-            
-            {% if data.skor is not none %}
-            <div class="score-container">
-                <strong>Uygunluk Skoru: </strong>
-                {% if data.skor >= 70 %}
-                    <span class="score-badge score-high">{{ data.skor }}</span>
-                {% elif data.skor >= 40 %}
-                    <span class="score-badge score-medium">{{ data.skor }}</span>
-                {% else %}
-                    <span class="score-badge score-low">{{ data.skor }}</span>
-                {% endif %}
-            </div>
-            {% endif %}
+        <div class="photo-box">
+            {% if data.foto_path %}<img src="{{ data.foto_path }}">
+            {% else %}<span style="font-size:8pt; color:#aaa; text-align:center;">FOTOĞRAF YOK</span>{% endif %}
         </div>
     </div>
     
-    <div class="sube-info">
-        İlgili Şube: {{ data.ihtiyac_sube }}
-    </div>
-
-    <div class="photo-box">
-        {% if data.foto_path %}
-            <img src="{{ data.foto_path }}">
-        {% else %}
-            <span>FOTOĞRAF YOK</span>
-        {% endif %}
-    </div>
-
-    <table>
-        <tr><td>AD SOYAD</td><td>{{ data.ad_soyad }}</td></tr>
-        <tr><td>İHTİYAÇ NEDENİ</td><td>{{ data.ihtiyac_nedeni }}</td></tr>
+    <table class="top-section">
+        <tr>
+            <td class="left-col">
+                <h2>TEMEL BİLGİLER</h2>
+                <table>
+                    <tr><td>AD SOYAD</td><td>{{ data.ad_soyad }}</td></tr>
+                    <tr><td>İHTİYAÇ NEDENİ</td><td>{{ data.ihtiyac_nedeni }}</td></tr>
+                    <tr><td>YAŞI</td><td>{{ data.yas }}</td></tr>
+                    <tr><td>BOY / KİLO</td><td>{{ data.boy }} cm / {{ data.kilo }} kg</td></tr>
+                    <tr><td>İKAMETGAH</td><td>{{ data.ikametgah }}</td></tr>
+                    <tr><td>MEZUNİYET</td><td>{{ data.mezuniyet }}</td></tr>
+                </table>
+            </td>
+            <td class="right-col">
+                <h2>İLETİŞİM & BAŞVURU</h2>
+                <table>
+                    <tr><td>TELEFON</td><td>{{ data.telefon }}</td></tr>
+                    <tr><td>BAŞVURU SİTESİ</td><td>{{ data.basvuru_sitesi }}</td></tr>
+                </table>
+            </td>
+        </tr>
     </table>
 
-    <h2>ADAY KİŞİSEL BİLGİLERİ</h2>
+    <h2>AİLE VE SOSYAL DURUM</h2>
     <table>
-        <tr><td>YAŞI</td><td>{{ data.yas }}</td></tr>
-        <tr><td>BOY / KİLO</td><td>{{ data.boy }} / {{ data.kilo }}</td></tr>
         <tr><td>MEDENİ DURUMU</td><td>{{ data.medeni_durum }}</td></tr>
-        <tr><td>İKAMETGAH</td><td>{{ data.ikametgah }}</td></tr>
-        <tr><td>MEZUNİYET DURUMU</td><td>{{ data.mezuniyet }}</td></tr>
+        <tr><td>KİMİNLE YAŞIYOR?</td><td>{{ data.kiminle_yasiyor or 'Bilgi Girilmedi.' }}</td></tr>
+        <tr><td>EŞ BİLGİSİ</td><td>{{ data.es_bilgisi or 'Bilgi Girilmedi.' }}</td></tr>
+        <tr><td>ANNE BİLGİSİ</td><td>{{ data.anne_bilgisi or 'Bilgi Girilmedi.' }}</td></tr>
+        <tr><td>BABA BİLGİSİ</td><td>{{ data.baba_bilgisi or 'Bilgi Girilmedi.' }}</td></tr>
     </table>
-    
-    <h2>İLETİŞİM & BAŞVURU BİLGİLERİ</h2>
-    <table>
-        <tr><td>TELEFON</td><td>{{ data.telefon }}</td></tr>
-        <tr><td>BAŞVURU SİTESİ</td><td>{{ data.basvuru_sitesi }}</td></tr>
-    </table>
+    {% if data.kardesler %}
+        <h3>KARDEŞ BİLGİLERİ</h3>
+        <table>
+        {% for kardes_meslek in data.kardesler %}
+            <tr><td>{{ loop.index }}. KARDEŞ MESLEĞİ</td><td>{{ kardes_meslek }}</td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
 
     <h2>İŞ DENEYİMLERİ</h2>
     <div class="notes-section">{{ data.is_deneyimi if data.is_deneyimi else 'Bilgi Girilmedi.' }}</div>
 
-    <h2>GÖRÜŞME BİLGİLERİ</h2>
+    <h2>GÖRÜŞME & SÜREÇ BİLGİLERİ</h2>
     <table>
         <tr><td>ONAYA SUNAN</td><td>{{ data.onaya_sunan }}</td></tr>
-        <tr><td>1. GÖRÜŞMEYİ YAPAN</td><td>{{ data.gorusme1_yapan }}</td></tr>
-        <tr><td>2. GÖRÜŞMEYİ YAPAN</td><td>{{ data.gorusme2_yapan }}</td></tr>
+        <tr><td>1. GÖRÜŞME</td><td>{{ data.gorusme1_yapan or ' yapılmadı.' }} ({{ data.gorusme1_tipi or 'Belirtilmemiş' }})</td></tr>
+        <tr><td>2. GÖRÜŞME</td><td>{{ data.gorusme2_yapan or ' yapılmadı.' }} ({{ data.gorusme2_tipi or 'Belirtilmemiş' }})</td></tr>
+        <tr><td>ESNEKLİK</td><td>Her yerde: {{ data.her_yerde_calisabilir }} / Eğitime: {{ data.egitime_gelebilir }}</td></tr>
     </table>
     
     <h2>GENEL DEĞERLENDİRME & NOTLAR</h2>
-    <div class="notes-section">{{ data.genel_notlar if data.genel_notlar else 'Herhangi bir genel değerlendirme notu girilmedi.' }}</div>
+    <div class="notes-section multi-column-notes">
+        {{ data.genel_notlar if data.genel_notlar else 'Herhangi bir genel değerlendirme notu girilmedi.' }}
+    </div>
 
+    <div class="footer-section">
+        <div class="footer-score">
+            {% if data.skor is not none %}
+                <strong>Uygunluk Skoru: </strong>
+                {% if data.skor >= 70 %}<span class="score-badge score-high">{{ data.skor }}</span>
+                {% elif data.skor >= 40 %}<span class="score-badge score-medium">{{ data.skor }}</span>
+                {% else %}<span class="score-badge score-low">{{ data.skor }}</span>{% endif %}
+            {% endif %}
+        </div>
+        <div class="footer-date">
+            <strong>Oluşturulma Tarihi:</strong> {{ data.gorusme_tarihi }}
+        </div>
+    </div>
 </body>
 </html>

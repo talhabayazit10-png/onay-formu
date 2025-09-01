@@ -7,274 +7,173 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #28a745;
-            --danger-color: #dc3545; /* Olumsuz durumlar için */
-            --warning-color: #ffc107; /* Açıklama gerektiren durumlar için */
-            --text-color: #333;
-            --light-bg: #f4f7f9;
-            --border-color: #e0e0e0;
-            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --primary-color: #007bff; --secondary-color: #28a745; --danger-color: #dc3545;
+            --warning-color: #ffc107; --text-color: #333; --light-bg: #f4f7f9;
+            --border-color: #e0e0e0; --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
             --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            padding: 30px 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 40px 50px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-light);
-            width: 100%;
-            max-width: 900px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-        .container:hover {
-            box-shadow: var(--shadow-hover);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        h1 {
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 2em;
-            margin: 0;
-        }
-
-        .btn-link {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
-        }
-        .btn-link:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-color);
-            font-size: 0.95em;
-        }
-
-        input:not([type="file"]), select, textarea {
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.9em;
-            color: var(--text-color);
-            background-color: #fcfcfc;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        input:not([type="file"]):focus, select:focus, textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-            outline: none;
-        }
-
-        input[type="file"] {
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: #fcfcfc;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        /* <<< YENİ EKLENEN YETKİNLİK BUTONLARI İÇİN STİLLER >>> */
-        .competency-group {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-        }
-        .competency-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .competency-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .competency-btn {
-            background-color: #e9ecef;
-            color: #495057;
-            border: 1px solid #ced4da;
-            padding: 8px 12px;
-            border-radius: 20px; /* Hap şeklinde tasarım */
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .competency-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        /* Farklı durumlar için farklı renkler */
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light-bg); margin: 0; padding: 30px 0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .container { background-color: #ffffff; padding: 40px 50px; border-radius: 12px; box-shadow: var(--shadow-light); width: 100%; max-width: 900px; box-sizing: border-box; transition: all 0.3s ease; }
+        .container:hover { box-shadow: var(--shadow-hover); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color); }
+        h1 { color: var(--text-color); font-weight: 600; font-size: 2em; margin: 0; }
+        h3 { font-size: 1.2em; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 30px; margin-bottom: 20px; font-weight: 500; }
+        .btn-link { background-color: var(--primary-color); color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 0.95em; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3); }
+        .btn-link:hover { background-color: #0056b3; transform: translateY(-2px); }
+        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { margin-bottom: 8px; font-weight: 500; color: var(--text-color); font-size: 0.95em; }
+        input:not([type="file"]):not([type="checkbox"]):not([type="radio"]), select, textarea { padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.9em; color: var(--text-color); background-color: #fcfcfc; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); outline: none; }
+        input[type="file"] { padding: 8px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #fcfcfc; }
+        textarea { resize: vertical; min-height: 120px; }
+        .full-width { grid-column: 1 / -1; }
+        .checkbox-group, .radio-group { display: flex; align-items: center; gap: 10px; padding-top: 5px; }
+        .checkbox-group label, .radio-group label { margin-bottom: 0; font-weight: 400; font-size: 0.9em; }
+        .checkbox-group input, .radio-group input { margin-right: 5px; }
+        .interview-group { display: flex; flex-direction: column; gap: 10px; }
+        .interview-type { background: #f8f9fa; padding: 10px; border-radius: 6px; margin-top: 5px; }
+        .competency-group { border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; }
+        .competency-title { font-weight: 600; color: var(--primary-color); margin-top: 0; margin-bottom: 15px; }
+        .competency-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+        .competency-btn { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; padding: 8px 12px; border-radius: 20px; font-size: 0.85em; cursor: pointer; transition: all 0.2s ease; }
+        .competency-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .competency-btn.positive { background-color: #e4f8e9; border-color: #a7d7b5; color: #1e6a36; }
         .competency-btn.negative { background-color: #f8e4e4; border-color: #d7a7a7; color: #8a1e1e; }
         .competency-btn.needs-info { background-color: #fff8e4; border-color: #d7caa7; color: #8a6a1e; }
-        
-        .full-width {
-            grid-column: 1 / -1;
-        }
-
-        .submit-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-            margin-top: 15px;
-        }
-        .submit-btn:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 30px; margin: 20px; }
-            form { grid-template-columns: 1fr; }
-            .header { flex-direction: column; align-items: flex-start; }
-            .header h1 { margin-bottom: 15px; }
-        }
+        .submit-btn { background-color: var(--secondary-color); color: white; border: none; padding: 15px 30px; font-size: 1.1em; cursor: pointer; border-radius: 8px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); margin-top: 15px; }
+        .submit-btn:hover { background-color: #218838; transform: translateY(-2px); }
+        /* --- YENİ EKLENDİ: Dinamik kardeş alanı için stil --- */
+        #kardes-meslek-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Yeni Aday Formu</h1>
-            <a href="/adaylar" class="btn-link">Kaydedilen Adaylar</a>
-        </div>
-        <form action="/pdf_olustur" method="post" enctype="multipart/data">
-            <div class="form-group full-width">
-                <label for="foto">ADAY FOTOĞRAFI</label>
-                <input type="file" id="foto" name="foto" accept="image/*">
-            </div>
+        <div class="header"><h1>Yeni Aday Formu</h1><a href="/adaylar" class="btn-link">Kaydedilen Adaylar</a></div>
+        
+        <form action="/aday_ekle" method="post" enctype="multipart/form-data">
+            
+            <h3>Temel Aday Bilgileri</h3>
+            <div class="form-group full-width"><label for="foto">ADAY FOTOĞRAFI</label><input type="file" id="foto" name="foto" accept="image/*"></div>
             <div class="form-group"><label for="ad_soyad">AD SOYAD</label><input type="text" id="ad_soyad" name="ad_soyad" required></div>
             <div class="form-group"><label for="ihtiyac_sube">İHTİYAÇ OLAN ŞUBE</label><input type="text" id="ihtiyac_sube" name="ihtiyac_sube" value="İZMİR"></div>
             <div class="form-group full-width"><label for="ihtiyac_nedeni">İHTİYAÇ NEDENİ</label><input type="text" id="ihtiyac_nedeni" name="ihtiyac_nedeni" value="GENEL İHTİYAÇ"></div>
-            
             <div class="form-group"><label for="yas">YAŞI</label><input type="number" id="yas" name="yas"></div>
-            <div class="form-group"><label for="boy">BOY (cm)</label><input type="text" id="boy" name="boy" placeholder="Örn: 175cm"></div>
-            <div class="form-group"><label for="kilo">KİLO (kg)</label><input type="text" id="kilo" name="kilo" placeholder="Örn: 85kg"></div>
-            <div class="form-group"><label for="medeni_durum">MEDENİ DURUMU</label><input type="text" id="medeni_durum" name="medeni_durum" value="BEKAR"></div>
+            <div class="form-group"><label for="boy">BOY (cm)</label><input type="text" id="boy" name="boy" placeholder="Örn: 175"></div>
+            <div class="form-group"><label for="kilo">KİLO (kg)</label><input type="text" id="kilo" name="kilo" placeholder="Örn: 85"></div>
             <div class="form-group full-width"><label for="ikametgah">İKAMETGAH (Nerede Oturuyor)</label><input type="text" id="ikametgah" name="ikametgah"></div>
             <div class="form-group full-width"><label for="mezuniyet">MEZUNİYET DURUMU</label><input type="text" id="mezuniyet" name="mezuniyet"></div>
             <div class="form-group"><label for="telefon">İLETİŞİM TELEFONU</label><input type="tel" id="telefon" name="telefon" placeholder="(5xx) xxx-xxxx"></div>
             <div class="form-group"><label for="basvuru_sitesi">BAŞVURU SİTESİ</label><input type="text" id="basvuru_sitesi" name="basvuru_sitesi" value="KENDİ SİTEMİZ"></div>
+
+            <h3>Aile ve Sosyal Durum Bilgileri</h3>
+            <div class="form-group"><label for="medeni_durum">MEDENİ DURUMU</label><input type="text" id="medeni_durum" name="medeni_durum" value="BEKAR"></div>
+            <div class="form-group"><label for="kiminle_yasiyor">KİMİNLE YAŞIYOR?</label><input type="text" id="kiminle_yasiyor" name="kiminle_yasiyor"></div>
+            <div class="form-group full-width"><label for="es_bilgisi">EŞ MESLEK / MEMLEKET</label><input type="text" id="es_bilgisi" name="es_bilgisi"></div>
+            <div class="form-group full-width"><label for="anne_bilgisi">ANNE MESLEK / MEMLEKET</label><input type="text" id="anne_bilgisi" name="anne_bilgisi"></div>
+            <div class="form-group full-width"><label for="baba_bilgisi">BABA MESLEK / MEMLEKET</label><input type="text" id="baba_bilgisi" name="baba_bilgisi"></div>
+            
+            <div class="form-group">
+                <label for="kardes_sayisi">KARDEŞ SAYISI</label>
+                <select id="kardes_sayisi" name="kardes_sayisi" style="padding: 12px 15px;">
+                    <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                </select>
+            </div>
+            <div class="full-width" id="kardes-meslek-container">
+                </div>
+            <h3>İş ve Mülakat Süreci</h3>
             <div class="form-group full-width"><label for="is_deneyimi">İŞ DENEYİMLERİ</label><textarea id="is_deneyimi" name="is_deneyimi">STAJ DENEYİMLERİ HARİCİ TECRÜBESİZ</textarea></div>
             <div class="form-group"><label for="onaya_sunan">ONAYA SUNAN (SİZİN ADINIZ)</label><input type="text" id="onaya_sunan" name="onaya_sunan" required></div>
-            <div class="form-group"><label for="gorusme1_yapan">1. GÖRÜŞMEYİ YAPAN</label><input type="text" id="gorusme1_yapan" name="gorusme1_yapan"></div>
-            <div class="form-group"><label for="gorusme2_yapan">2. GÖRÜŞMEYİ YAPAN</label><input type="text" id="gorusme2_yapan" name="gorusme2_yapan"></div>
-            
+            <div class="form-group interview-group">
+                <label for="gorusme1_yapan">1. GÖRÜŞMEYİ YAPAN</label>
+                <input type="text" id="gorusme1_yapan" name="gorusme1_yapan">
+                <div class="interview-type radio-group">
+                    <input type="radio" id="g1_yy" name="gorusme1_tipi" value="Yüz Yüze" checked><label for="g1_yy">Yüz Yüze</label>
+                    <input type="radio" id="g1_on" name="gorusme1_tipi" value="Online"><label for="g1_on">Online</label>
+                </div>
+            </div>
+            <div class="form-group interview-group">
+                <label for="gorusme2_yapan">2. GÖRÜŞMEYİ YAPAN</label>
+                <input type="text" id="gorusme2_yapan" name="gorusme2_yapan">
+                <div class="interview-type radio-group">
+                    <input type="radio" id="g2_yy" name="gorusme2_tipi" value="Yüz Yüze" checked><label for="g2_yy">Yüz Yüze</label>
+                    <input type="radio" id="g2_on" name="gorusme2_tipi" value="Online"><label for="g2_on">Online</label>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label>ESNEKLİK DURUMU</label>
+                <div class="checkbox-group"><input type="checkbox" id="her_yerde_calisabilir" name="her_yerde_calisabilir"><label for="her_yerde_calisabilir">Her yerde çalışabilir</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="egitime_gelebilir" name="egitime_gelebilir"><label for="egitime_gelebilir">Eğitime gelebilir</label></div>
+            </div>
+
             <div class="form-group full-width">
                 <label>HIZLI DEĞERLENDİRME NOTLARI</label>
                 <div class="competency-group">
                     <h4 class="competency-title">Genel Durum</h4>
                     <div class="competency-buttons">
-                        <button class="competency-btn positive" data-text="Sigara kullanmıyor.">Sigara Kullanmıyor</button>
-                        <button class="competency-btn negative" data-text="Sigara kullanıyor.">Sigara Kullanıyor</button>
-                        <button class="competency-btn positive" data-text="Dava/mahkeme süreci yok.">Dava Süreci Yok</button>
-                        <button class="competency-btn needs-info" data-text="Dava/mahkeme süreci var (Açıklama: ).">Dava Süreci Var</button>
-                        <button class="competency-btn positive" data-text="Sağlık problemi yok.">Sağlık Problemi Yok</button>
-                        <button class="competency-btn needs-info" data-text="Sağlık problemi var (Açıklama: ).">Sağlık Problemi Var</button>
-                        <button class="competency-btn positive" data-text="Yakın zamanda söz/nişan/düğün düşüncesi yok.">Söz/Nişan Yok</button>
-                        <button class="competency-btn needs-info" data-text="Yakın zamanda söz/nişan/düğün düşüncesi var (Açıklama: ).">Söz/Nişan Düşüncesi Var</button>
-                        <button class="competency-btn positive" data-text="Borcu yok.">Borç Yok</button>
-                        <button class="competency-btn needs-info" data-text="Borcu var (Açıklama: ).">Borç Var</button>
+                        <button class="competency-btn positive" data-text="Sigara kullanmıyor.">Sigara Kullanmıyor</button><button class="competency-btn negative" data-text="Sigara kullanıyor.">Sigara Kullanıyor</button>
+                        <button class="competency-btn positive" data-text="Dava/mahkeme süreci yok.">Dava Süreci Yok</button><button class="competency-btn needs-info" data-text="Dava/mahkeme süreci var (Açıklama: ).">Dava Süreci Var</button>
+                        <button class="competency-btn positive" data-text="Sağlık problemi yok.">Sağlık Problemi Yok</button><button class="competency-btn needs-info" data-text="Sağlık problemi var (Açıklama: ).">Sağlık Problemi Var</button>
+                        <button class="competency-btn positive" data-text="Yakın zamanda söz/nişan/düğün düşüncesi yok.">Söz/Nişan Yok</button><button class="competency-btn needs-info" data-text="Yakın zamanda söz/nişan/düğün düşüncesi var.">Söz/Nişan Düşüncesi Var</button>
+                        <button class="competency-btn positive" data-text="Borcu yok.">Borç Yok</button><button class="competency-btn needs-info" data-text="Borcu var (Açıklama: ).">Borç Var</button>
                     </div>
                     <h4 class="competency-title" style="margin-top: 20px;">Mülakat Gözlemi</h4>
                     <div class="competency-buttons">
-                        <button class="competency-btn positive" data-text="Çalışmasına engel bir durumu yok.">Engel Durumu Yok</button>
-                        <button class="competency-btn positive" data-text="Diksiyonu başarılı.">Diksiyon Başarılı</button>
-                        <button class="competency-btn positive" data-text="Hitabeti başarılı.">Hitabet Başarılı</button>
-                        <button class="competency-btn positive" data-text="Enerjisi pozisyon için uygun.">Enerjisi Uygun</button>
-                        <button class="competency-btn positive" data-text="Gülümsemesi ve pozitif yaklaşımı uygun.">Gülümseme Uygun</button>
-                        <button class="competency-btn positive" data-text="Tipolojisi kuruma uygun.">Tipoloji Uygun</button>
+                        <button class="competency-btn positive" data-text="Çalışmasına engel bir durumu yok.">Engel Durumu Yok</button><button class="competency-btn positive" data-text="Diksiyonu başarılı.">Diksiyon Başarılı</button>
+                        <button class="competency-btn positive" data-text="Hitabeti başarılı.">Hitabet Başarılı</button><button class="competency-btn positive" data-text="Enerjisi pozisyon için uygun.">Enerjisi Uygun</button>
+                        <button class="competency-btn positive" data-text="Gülümsemesi ve pozitif yaklaşımı uygun.">Gülümseme Uygun</button><button class="competency-btn positive" data-text="Tipolojisi kuruma uygun.">Tipoloji Uygun</button>
                         <button class="competency-btn positive" data-text="Uyumlu bir izlenim bıraktı.">Uyumlu İzlenim</button>
                     </div>
                 </div>
             </div>
             
-            <div class="form-group full-width">
-                <label for="genel_notlar">GENEL DEĞERLENDİRME VE NOTLAR</label>
-                <textarea id="genel_notlar" name="genel_notlar"></textarea>
-            </div>
-
-            <button type="submit" class="full-width submit-btn">Kaydet ve PDF Formu Oluştur</button>
+            <div class="form-group full-width"><label for="genel_notlar">GENEL DEĞERLENDİRME VE NOTLAR</label><textarea id="genel_notlar" name="genel_notlar"></textarea></div>
+            
+            <button type="submit" class="full-width submit-btn">Adayı Kaydet</button>
         </form>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Hızlı not ekleme butonu
             const competencyButtons = document.querySelectorAll('.competency-btn');
             const notesTextarea = document.getElementById('genel_notlar');
-
             competencyButtons.forEach(button => {
                 button.addEventListener('click', function(event) {
-                    // Butonun formu göndermesini engelle
                     event.preventDefault(); 
-                    
                     const textToAdd = this.dataset.text;
-
-                    // Eğer metin kutusu boş değilse, yeni satıra geç
-                    if (notesTextarea.value.trim() !== '') {
-                        notesTextarea.value += '\n';
-                    }
-
-                    // Madde işareti (•) ile metni ekle
+                    if (notesTextarea.value.trim() !== '') { notesTextarea.value += '\n'; }
                     notesTextarea.value += '• ' + textToAdd;
                 });
             });
+
+            // --- YENİ EKLENDİ: Kardeş sayısı değiştikçe meslek alanı ekleme ---
+            document.getElementById('kardes_sayisi').addEventListener('change', function() {
+                const count = parseInt(this.value, 10);
+                const container = document.getElementById('kardes-meslek-container');
+                container.innerHTML = ''; // Önceki alanları temizle
+
+                for (let i = 1; i <= count; i++) {
+                    const formGroup = document.createElement('div');
+                    formGroup.className = 'form-group';
+
+                    const label = document.createElement('label');
+                    label.setAttribute('for', 'kardes' + i + '_meslek');
+                    label.textContent = i + '. KARDEŞ MESLEĞİ';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = 'kardes' + i + '_meslek';
+                    input.name = 'kardes' + i + '_meslek';
+                    input.placeholder = i + '. kardeşin mesleğini girin';
+
+                    formGroup.appendChild(label);
+                    formGroup.appendChild(input);
+                    container.appendChild(formGroup);
+                }
+            });
         });
     </script>
-
 </body>
 </html>

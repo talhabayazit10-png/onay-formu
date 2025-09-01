@@ -16,17 +16,23 @@
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color); flex-wrap: wrap; }
         .header-title { display: flex; align-items: center; gap: 20px; }
         h1 { color: var(--text-color); font-weight: 600; font-size: 2em; margin: 0; }
+        h3 { font-size: 1.2em; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 30px; margin-bottom: 20px; font-weight: 500; }
         .header-actions { margin-top: 10px; }
-        .header-actions a, .header-actions button { text-decoration: none; padding: 10px 20px; border-radius: 8px; color: white; margin-left: 10px; font-weight: 500; font-size: 0.9em; border: none; cursor: pointer; }
+        .header-actions a { text-decoration: none; padding: 10px 20px; border-radius: 8px; color: white; margin-left: 10px; font-weight: 500; font-size: 0.9em; border: none; cursor: pointer; }
         .header-actions .btn-pdf { background-color: var(--primary-color); }
         .header-actions .btn-back { background-color: #6c757d; }
         form { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         .form-group { display: flex; flex-direction: column; }
         label { margin-bottom: 8px; font-weight: 500; color: var(--text-color); }
-        input, textarea { padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.9em; }
-        input:focus, textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); outline: none; }
+        input:not([type="checkbox"]):not([type="radio"]), select, textarea { padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.9em; }
+        input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); outline: none; }
         textarea { resize: vertical; min-height: 120px; }
         .full-width { grid-column: 1 / -1; }
+        .checkbox-group, .radio-group { display: flex; align-items: center; gap: 10px; padding-top: 5px; }
+        .checkbox-group label, .radio-group label { margin-bottom: 0; font-weight: 400; font-size: 0.9em; }
+        .checkbox-group input, .radio-group input { margin-right: 5px; }
+        .interview-group { display: flex; flex-direction: column; gap: 10px; }
+        .interview-type { background: #f8f9fa; padding: 10px; border-radius: 6px; margin-top: 5px; }
         .submit-btn { background-color: var(--secondary-color); color: white; border: none; padding: 15px; font-size: 1.1em; cursor: pointer; border-radius: 8px; font-weight: 600; }
         .flash-message { padding: 15px; margin-bottom: 20px; border-radius: 8px; font-weight: 500; }
         .flash-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
@@ -34,6 +40,7 @@
         .score-high { background-color: var(--secondary-color); }
         .score-medium { background-color: #ffc107; color: #333; }
         .score-low { background-color: var(--danger-color); }
+        #kardes-meslek-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     </style>
 </head>
 <body>
@@ -54,15 +61,13 @@
             {% if messages %}{% for category, message in messages %}<div class="flash-message {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
         {% endwith %}
         <form action="{{ url_for('aday_duzenle', aday_id=aday.id) }}" method="post" enctype="multipart/form-data">
+            
+            <h3>Temel Aday Bilgileri</h3>
             <div class="form-group full-width">
                 <label>MEVCUT FOTOĞRAF</label>
-                {% if aday.foto_path %}
-                    <img src="{{ url_for('uploaded_file', filename=aday.foto_path) }}" alt="Aday Fotoğrafı" style="max-width: 150px; border-radius: 8px; margin-bottom: 10px;">
-                {% else %}
-                    <p>Mevcut fotoğraf yok.</p>
-                {% endif %}
-                <label for="foto">Fotoğrafı Değiştir/Ekle</label>
-                <input type="file" id="foto" name="foto" accept="image/*">
+                {% if aday.foto_path %}<img src="{{ url_for('uploaded_file', filename=aday.foto_path) }}" alt="Aday Fotoğrafı" style="max-width: 150px; border-radius: 8px; margin-bottom: 10px;">
+                {% else %}<p>Mevcut fotoğraf yok.</p>{% endif %}
+                <label for="foto">Fotoğrafı Değiştir/Ekle</label><input type="file" id="foto" name="foto" accept="image/*">
             </div>
             <div class="form-group"><label>AD SOYAD</label><input type="text" name="ad_soyad" value="{{ aday.ad_soyad }}" required></div>
             <div class="form-group"><label>İHTİYAÇ OLAN ŞUBE</label><input type="text" name="ihtiyac_sube" value="{{ aday.ihtiyac_sube }}"></div>
@@ -70,18 +75,108 @@
             <div class="form-group"><label>YAŞI</label><input type="number" name="yas" value="{{ aday.yas }}"></div>
             <div class="form-group"><label>BOY (cm)</label><input type="text" name="boy" value="{{ aday.boy }}"></div>
             <div class="form-group"><label>KİLO (kg)</label><input type="text" name="kilo" value="{{ aday.kilo }}"></div>
-            <div class="form-group"><label>MEDENİ DURUMU</label><input type="text" name="medeni_durum" value="{{ aday.medeni_durum }}"></div>
             <div class="form-group full-width"><label>İKAMETGAH</label><input type="text" name="ikametgah" value="{{ aday.ikametgah }}"></div>
             <div class="form-group full-width"><label>MEZUNİYET DURUMU</label><input type="text" name="mezuniyet" value="{{ aday.mezuniyet }}"></div>
             <div class="form-group"><label>TELEFON</label><input type="tel" name="telefon" value="{{ aday.telefon }}"></div>
             <div class="form-group"><label>BAŞVURU SİTESİ</label><input type="text" name="basvuru_sitesi" value="{{ aday.basvuru_sitesi }}"></div>
+
+            <h3>Aile ve Sosyal Durum Bilgileri</h3>
+            <div class="form-group"><label>MEDENİ DURUMU</label><input type="text" name="medeni_durum" value="{{ aday.medeni_durum }}"></div>
+            <div class="form-group"><label>KİMİNLE YAŞIYOR?</label><input type="text" name="kiminle_yasiyor" value="{{ aday.kiminle_yasiyor or '' }}"></div>
+            <div class="form-group full-width"><label>EŞ MESLEK / MEMLEKET</label><input type="text" name="es_bilgisi" value="{{ aday.es_bilgisi or '' }}"></div>
+            <div class="form-group full-width"><label>ANNE MESLEK / MEMLEKET</label><input type="text" name="anne_bilgisi" value="{{ aday.anne_bilgisi or '' }}"></div>
+            <div class="form-group full-width"><label>BABA MESLEK / MEMLEKET</label><input type="text" name="baba_bilgisi" value="{{ aday.baba_bilgisi or '' }}"></div>
+            
+             <div class="form-group">
+                <label for="kardes_sayisi">KARDEŞ SAYISI</label>
+                <select id="kardes_sayisi" name="kardes_sayisi" style="padding: 12px 15px;">
+                    <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                </select>
+            </div>
+            <div class="full-width" id="kardes-meslek-container">
+                </div>
+             <h3>İş ve Mülakat Süreci</h3>
             <div class="form-group full-width"><label>İŞ DENEYİMLERİ</label><textarea name="is_deneyimi">{{ aday.is_deneyimi }}</textarea></div>
             <div class="form-group"><label>ONAYA SUNAN</label><input type="text" name="onaya_sunan" value="{{ aday.onaya_sunan }}" required></div>
-            <div class="form-group"><label>1. GÖRÜŞMEYİ YAPAN</label><input type="text" name="gorusme1_yapan" value="{{ aday.gorusme1_yapan }}"></div>
-            <div class="form-group"><label>2. GÖRÜŞMEYİ YAPAN</label><input type="text" name="gorusme2_yapan" value="{{ aday.gorusme2_yapan }}"></div>
+            <div class="form-group interview-group">
+                <label for="gorusme1_yapan">1. GÖRÜŞMEYİ YAPAN</label>
+                <input type="text" id="gorusme1_yapan" name="gorusme1_yapan" value="{{ aday.gorusme1_yapan or '' }}">
+                <div class="interview-type radio-group">
+                    <input type="radio" id="g1_yy" name="gorusme1_tipi" value="Yüz Yüze" {% if aday.gorusme1_tipi == 'Yüz Yüze' or not aday.gorusme1_tipi %}checked{% endif %}><label for="g1_yy">Yüz Yüze</label>
+                    <input type="radio" id="g1_on" name="gorusme1_tipi" value="Online" {% if aday.gorusme1_tipi == 'Online' %}checked{% endif %}><label for="g1_on">Online</label>
+                </div>
+            </div>
+            <div class="form-group interview-group">
+                <label for="gorusme2_yapan">2. GÖRÜŞMEYİ YAPAN</label>
+                <input type="text" id="gorusme2_yapan" name="gorusme2_yapan" value="{{ aday.gorusme2_yapan or '' }}">
+                <div class="interview-type radio-group">
+                    <input type="radio" id="g2_yy" name="gorusme2_tipi" value="Yüz Yüze" {% if aday.gorusme2_tipi == 'Yüz Yüze' or not aday.gorusme2_tipi %}checked{% endif %}><label for="g2_yy">Yüz Yüze</label>
+                    <input type="radio" id="g2_on" name="gorusme2_tipi" value="Online" {% if aday.gorusme2_tipi == 'Online' %}checked{% endif %}><label for="g2_on">Online</label>
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>ESNEKLİK DURUMU</label>
+                <div class="checkbox-group"><input type="checkbox" id="her_yerde_calisabilir" name="her_yerde_calisabilir" {% if aday.her_yerde_calisabilir == 'Evet' %}checked{% endif %}><label for="her_yerde_calisabilir">Her yerde çalışabilir</label></div>
+                <div class="checkbox-group"><input type="checkbox" id="egitime_gelebilir" name="egitime_gelebilir" {% if aday.egitime_gelebilir == 'Evet' %}checked{% endif %}><label for="egitime_gelebilir">Eğitime gelebilir</label></div>
+            </div>
+
             <div class="form-group full-width"><label>GENEL DEĞERLENDİRME VE NOTLAR</label><textarea name="genel_notlar">{{ aday.genel_notlar }}</textarea></div>
             <button type="submit" class="full-width submit-btn">Değişiklikleri Kaydet</button>
         </form>
     </div>
+
+    <script>
+        // --- YENİ EKLENDİ: Dinamik kardeş alanı script'i ---
+        function updateKardesFields(count, data) {
+            const container = document.getElementById('kardes-meslek-container');
+            container.innerHTML = ''; // Temizle
+
+            for (let i = 1; i <= count; i++) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+
+                const label = document.createElement('label');
+                label.setAttribute('for', 'kardes' + i + '_meslek');
+                label.textContent = i + '. KARDEŞ MESLEĞİ';
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = 'kardes' + i + '_meslek';
+                input.name = 'kardes' + i + '_meslek';
+                
+                // Kayıtlı veriyi input'a ekle
+                const meslekKey = 'kardes' + i + '_meslek';
+                if (data && data[meslekKey]) {
+                    input.value = data[meslekKey];
+                }
+
+                formGroup.appendChild(label);
+                formGroup.appendChild(input);
+                container.appendChild(formGroup);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const kardesSayisiSelect = document.getElementById('kardes_sayisi');
+            const adayData = JSON.parse({{ aday_json|tojson }});
+
+            // Sayfa yüklendiğinde mevcut kardeş sayısını ve bilgilerini doldur
+            let initialCount = 0;
+            for (let i = 5; i >= 1; i--) {
+                if (adayData['kardes' + i + '_meslek']) {
+                    initialCount = i;
+                    break;
+                }
+            }
+            kardesSayisiSelect.value = initialCount;
+            updateKardesFields(initialCount, adayData);
+
+            // Kardeş sayısı değiştiğinde alanları yeniden oluştur
+            kardesSayisiSelect.addEventListener('change', function() {
+                updateKardesFields(parseInt(this.value, 10), adayData);
+            });
+        });
+    </script>
 </body>
 </html>
